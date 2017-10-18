@@ -4,7 +4,7 @@ List: "Lists/RWC-Popular.lst"
 * Chords MirexMajMin *
 **********************
 Duration of evaluated chords: 23025.1 s
-Average score: 44.8579%
+Average score: 44.8532%
 
 Chord detection results
 -----------------------

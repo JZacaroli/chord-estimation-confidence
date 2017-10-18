@@ -4,7 +4,7 @@ List: "../Lists/IsophonicsChords2010-augmentedstereo.lst"
 * Chords MirexMajMin *
 **********************
 Duration of evaluated chords: 250448 s
-Average score: 55.1055%
+Average score: 55.0957%
 
 Chord detection results
 -----------------------
