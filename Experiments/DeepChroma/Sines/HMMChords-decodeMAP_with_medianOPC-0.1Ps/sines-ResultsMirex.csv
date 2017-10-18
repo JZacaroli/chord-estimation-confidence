@@ -1,0 +1,4 @@
+MirexMajMin
+File,Pairwise score (%),Duration (s),Correct chords (%),Substituted chords (%),Deleted chords (%),Inserted chords (%),Correct no-chords (%),"maj correct (%)","maj proportion (%)","min correct (%)","min proportion (%)",0 chromas wrong (%),1 chroma wrong (%),2 chromas wrong (%),3 chromas wrong (%),Both correct (%),Only root correct (%),Only type correct (%),Both wrong (%),Unique ref chords,Unique test chords
+"sine110",n/a,0.000000,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,0,0
+"sines261-440",0.000000,5.000000,0.000000,98.000000,2.000000,0.000000,0.000000,-nan,0.000000,0.000000,100.000000,0.000000,98.000000,0.000000,0.000000,0.000000,0.000000,0.000000,98.000000,1,1

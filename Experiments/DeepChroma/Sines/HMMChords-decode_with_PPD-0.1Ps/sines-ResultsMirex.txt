@@ -1,0 +1,39 @@
+List: "Lists/sines.lst"
+
+**********************
+* Chords MirexMajMin *
+**********************
+Duration of evaluated chords: 5 s
+Average score: 0%
+
+Chord detection results
+-----------------------
+Correct chords: 0 s (0%)
+Substituted chords: 4.9 s (98%)
+Deleted chords: 0.1 s (2%)
+Inserted chords: 0 s (0%)
+Correct no-chords: 0 s (0%)
+
+Results per chord type
+----------------------
+maj: 0 s (n/a) of 0 s (0%)
+min: 0 s (0%) of 5 s (100%)
+
+Results per number of chromas wrong
+-----------------------------------
+0 chromas wrong: 0 s (0%)
+  of which root correct: 0 s (0%)
+  of which root incorrect: 0 s (0%)
+1 chroma wrong: 4.9 s (98%)
+  of which 1 substitution: 4.9 s (98%)
+2 chromas wrong: 0 s (0%)
+  of which 2 substitutions: 0 s (0%)
+3 chromas wrong: 0 s (0%)
+  of which 3 substitutions: 0 s (0%)
+
+Root/type results
+-----------------
+Both correct: 0 s (0%)
+Only root correct: 0 s (0%)
+Only type correct: 0 s (0%)
+Both wrong: 4.9 s (98%)

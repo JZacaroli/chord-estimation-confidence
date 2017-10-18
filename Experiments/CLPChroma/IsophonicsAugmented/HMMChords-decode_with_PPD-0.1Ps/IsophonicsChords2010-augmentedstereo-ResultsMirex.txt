@@ -1,0 +1,40 @@
+List: "../Lists/IsophonicsChords2010-augmentedstereo.lst"
+
+**********************
+* Chords MirexMajMin *
+**********************
+Duration of evaluated chords: 250448 s
+Average score: 55.1055%
+
+Chord detection results
+-----------------------
+Correct chords: 137986 s (55.0957%)
+Substituted chords: 99078.4 s (39.5605%)
+Deleted chords: 1.2657 s (0.000505377%)
+Inserted chords: 13357.5 s (5.33345%)
+Correct no-chords: 24.4859 s (0.00977683%)
+
+Results per chord type
+----------------------
+maj: 110593 s (59.7566%) of 185072 s (73.8963%)
+min: 27393.4 s (52.6856%) of 51994.1 s (20.7605%)
+
+Results per number of chromas wrong
+-----------------------------------
+0 chromas wrong: 137986 s (55.0957%)
+  of which root correct: 137986 s (55.0957%)
+  of which root incorrect: 0 s (0%)
+1 chroma wrong: 31837.6 s (12.7123%)
+  of which 1 substitution: 31837.6 s (12.7123%)
+2 chromas wrong: 45397.2 s (18.1264%)
+  of which 2 substitutions: 45397.2 s (18.1264%)
+3 chromas wrong: 11121 s (4.44046%)
+  of which 3 substitutions: 11121 s (4.44046%)
+unknown chromas wrong: 10722.6 s (4.28136%)
+
+Root/type results
+-----------------
+Both correct: 137986 s (55.0957%)
+Only root correct: 11938.5 s (4.76684%)
+Only type correct: 40381.1 s (16.1236%)
+Both wrong: 46758.9 s (18.6701%)

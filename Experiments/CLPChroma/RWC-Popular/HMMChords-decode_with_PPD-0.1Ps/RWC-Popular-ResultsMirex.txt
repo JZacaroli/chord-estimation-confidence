@@ -1,0 +1,40 @@
+List: "Lists/RWC-Popular.lst"
+
+**********************
+* Chords MirexMajMin *
+**********************
+Duration of evaluated chords: 23025.1 s
+Average score: 44.8579%
+
+Chord detection results
+-----------------------
+Correct chords: 10327.5 s (44.8532%)
+Substituted chords: 12090.8 s (52.5115%)
+Deleted chords: 0.04 s (0.000173723%)
+Inserted chords: 605.652 s (2.6304%)
+Correct no-chords: 1.094 s (0.00475134%)
+
+Results per chord type
+----------------------
+maj: 7225.68 s (47.2597%) of 15289.3 s (66.4027%)
+min: 3101.81 s (43.5094%) of 7129.06 s (30.9621%)
+
+Results per number of chromas wrong
+-----------------------------------
+0 chromas wrong: 10327.5 s (44.8532%)
+  of which root correct: 10327.5 s (44.8532%)
+  of which root incorrect: 0 s (0%)
+1 chroma wrong: 4307.5 s (18.7078%)
+  of which 1 substitution: 4307.5 s (18.7078%)
+2 chromas wrong: 5475.85 s (23.7821%)
+  of which 2 substitutions: 5475.85 s (23.7821%)
+3 chromas wrong: 1868.8 s (8.11638%)
+  of which 3 substitutions: 1868.8 s (8.11638%)
+unknown chromas wrong: 438.666 s (1.90516%)
+
+Root/type results
+-----------------
+Both correct: 10327.5 s (44.8532%)
+Only root correct: 981.86 s (4.2643%)
+Only type correct: 4853.17 s (21.0778%)
+Both wrong: 6255.79 s (27.1694%)
