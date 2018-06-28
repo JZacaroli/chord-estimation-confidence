@@ -4,6 +4,55 @@
 from __future__ import division
 from six import print_
 import numpy as np
+import madmom
+
+class MadMomChromaExtractor(object):
+    def __init__(self, samplerate, frame_size, step_size):
+        self.samplerate = samplerate
+        self.frame_size = frame_size
+        self.step_size = step_size
+    
+    def get_frame_times(self, chromagram):
+        start_times = self.step_size / self.samplerate * np.arange(len(chromagram)) - self.frame_size/(2*self.samplerate)
+        return start_times, start_times+self.frame_size/self.samplerate
+
+class MadMomDeepChromaExtractor(MadMomChromaExtractor):
+    def __init__(self, samplerate, frame_size, step_size):
+        super(MadMomDeepChromaExtractor, self).__init__(samplerate, frame_size, step_size)
+        if samplerate != 44100 or frame_size != 8192 or step_size != 4410:
+            raise ValueError('Parameter values not supported')
+        self.extractor = madmom.audio.chroma.DeepChromaProcessor(num_channels=1)
+    
+    def __call__(self, audiopath):
+        chromagram = self.extractor(audiopath)
+        chromagram = np.roll(chromagram, 3, axis=1)
+        return chromagram, self.get_frame_times(chromagram)
+
+class MadMomCLPChromaExtractor(MadMomChromaExtractor):
+    def __init__(self, samplerate, frame_size, step_size):
+        super(MadMomCLPChromaExtractor, self).__init__(samplerate, frame_size, step_size)
+    
+    def __call__(self, audiopath):
+        chromagram = madmom.audio.chroma.CLPChroma(audiopath, fps=self.samplerate/self.step_size)
+        chromagram = np.roll(chromagram, 3, axis=1)
+        return chromagram, self.get_frame_times(chromagram)
+        
+class MadMomPCPChromaExtractor(MadMomChromaExtractor):
+    def __init__(self, samplerate, frame_size, step_size):
+        super(MadMomPCPChromaExtractor, self).__init__(samplerate, frame_size, step_size)
+    
+    def __call__(self, audiopath):
+        chromagram = madmom.audio.chroma.PitchClassProfile(audiopath, num_channels=1, sample_rate=self.samplerate, frame_size=self.frame_size, hop_size=self.step_size, num_classes=12)
+        return chromagram, self.get_frame_times(chromagram)
+        
+class MadMomHPCPChromaExtractor(MadMomChromaExtractor):
+    def __init__(self, samplerate, frame_size, step_size):
+        super(MadMomHPCPChromaExtractor, self).__init__(samplerate, frame_size, step_size)
+    
+    def __call__(self, audiopath):
+        chromagram = madmom.audio.chroma.HarmonicPitchClassProfile(audiopath, num_channels=1, sample_rate=self.samplerate, frame_size=self.frame_size, hop_size=self.step_size, num_classes=12)
+        return chromagram, self.get_frame_times(chromagram)
+        
 
 def squash_timed_labels(start_times, end_times, labels):
     centre_times = np.mean((start_times, end_times), axis=0)
@@ -57,13 +106,14 @@ from os.path import join, isfile
 from hiddini import ObservationsTemplateCosSim
 
 class ChordsFromTemplates(object):
-    def __init__(self, audio_dir, chordfile_dir, chromas, chordtypes, type_templates, chroma_extractor, audio_suffix='.wav', chordfile_suffix='.lab'):
+    def __init__(self, audio_dir, chordfile_dir, chromas, chordtypes, type_templates, chroma_extractor, audio_suffix='.wav', chordfile_suffix='.lab', overwrite=False, root_type_separator=':'):
         self.audio_dir = audio_dir
         self.chordfile_dir = chordfile_dir
-        self.chords = np.array([':'.join(x) for x in itertools.product(chromas, chordtypes)])
+        self.chords = np.array([root_type_separator.join(x) for x in itertools.product(chromas, chordtypes)])
         self.chroma_extractor = chroma_extractor
         self.audio_suffix = audio_suffix
         self.chordfile_suffix = chordfile_suffix
+        self.overwrite = overwrite
         chord_templates = np.dstack([circulant(i) for i in type_templates]).reshape(len(chromas), -1).T
         self.observer = ObservationsTemplateCosSim(chord_templates)
     
@@ -76,8 +126,7 @@ class ChordsFromTemplates(object):
 
 class FramewiseChordsFromTemplates(ChordsFromTemplates):
     def __init__(self, audio_dir, chordfile_dir, chromas, chord_types, type_templates, chroma_extractor, audio_suffix='.wav', chordfile_suffix='.lab', overwrite=False):
-        super(FramewiseChordsFromTemplates, self).__init__(audio_dir, chordfile_dir, chromas, chord_types, type_templates, chroma_extractor, audio_suffix, chordfile_suffix)
-        self.overwrite = overwrite
+        super(FramewiseChordsFromTemplates, self).__init__(audio_dir, chordfile_dir, chromas, chord_types, type_templates, chroma_extractor, audio_suffix, chordfile_suffix, overwrite)
     
     def __call__(self, relative_path, timed_chromagram=None):
         chordfile_path = join(self.chordfile_dir, relative_path+self.chordfile_suffix)
@@ -92,8 +141,7 @@ class FramewiseChordsFromTemplates(ChordsFromTemplates):
 from hiddini import HMMRaw
 class HMMSmoothedChordsFromTemplates(ChordsFromTemplates):
     def __init__(self, audio_dir, chordfile_dir, chromas, chord_types, type_templates, chroma_extractor, chord_self_prob, audio_suffix='.wav', chordfile_suffix='.lab', overwrite=False, decode_method='decodeMAP'):
-        super(HMMSmoothedChordsFromTemplates, self).__init__(audio_dir, chordfile_dir, chromas, chord_types, type_templates, chroma_extractor, audio_suffix, chordfile_suffix)
-        self.overwrite = overwrite
+        super(HMMSmoothedChordsFromTemplates, self).__init__(audio_dir, chordfile_dir, chromas, chord_types, type_templates, chroma_extractor, audio_suffix, chordfile_suffix, overwrite)
         num_chords = len(self.chords)
         trans_prob = np.full((num_chords, num_chords), (1-chord_self_prob)/(num_chords-1))
         np.fill_diagonal(trans_prob, chord_self_prob)
