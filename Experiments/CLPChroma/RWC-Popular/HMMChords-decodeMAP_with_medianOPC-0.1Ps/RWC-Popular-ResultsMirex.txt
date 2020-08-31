@@ -1,40 +1,41 @@
 List: "Lists/RWC-Popular.lst"
 
-**********************
-* Chords MirexMajMin *
-**********************
-Duration of evaluated chords: 23025.1 s
-Average score: 44.8532%
+************************
+* Chords 4TriadsOutput *
+************************
+Duration of evaluated chords: 23439.1 s
+Average score: 45.6263%
 
 Chord detection results
 -----------------------
-Correct chords: 10327.5 s (44.8532%)
-Substituted chords: 12090.8 s (52.5115%)
-Deleted chords: 0.04 s (0.000173723%)
-Inserted chords: 605.652 s (2.6304%)
-Correct no-chords: 1.094 s (0.00475134%)
+Correct chords: 10694.4 s (45.6263%)
+Substituted chords: 12138 s (51.7851%)
+Deleted chords: 0 s (0%)
+Inserted chords: 605.681 s (2.58406%)
+Correct no-chords: 1.065 s (0.00454368%)
 
 Results per chord type
 ----------------------
-maj: 7225.68 s (47.2597%) of 15289.3 s (66.4027%)
-min: 3101.81 s (43.5094%) of 7129.06 s (30.9621%)
+maj: 7455.18 s (48.7608%) of 15289.3 s (65.2297%)
+min: 3176.52 s (44.5573%) of 7129.06 s (30.4152%)
+aug: 2.74 s (2.67416%) of 102.462 s (0.437141%)
+dim: 59.97 s (19.2471%) of 311.579 s (1.32931%)
 
 Results per number of chromas wrong
 -----------------------------------
-0 chromas wrong: 10327.5 s (44.8532%)
-  of which root correct: 10327.5 s (44.8532%)
-  of which root incorrect: 0 s (0%)
-1 chroma wrong: 4307.5 s (18.7078%)
-  of which 1 substitution: 4307.5 s (18.7078%)
-2 chromas wrong: 5475.85 s (23.7821%)
-  of which 2 substitutions: 5475.85 s (23.7821%)
-3 chromas wrong: 1868.8 s (8.11638%)
-  of which 3 substitutions: 1868.8 s (8.11638%)
-unknown chromas wrong: 438.666 s (1.90516%)
+0 chromas wrong: 10701.8 s (45.6576%)
+  of which root correct: 10694.4 s (45.6263%)
+  of which root incorrect: 7.349 s (0.0313535%)
+1 chroma wrong: 4780.08 s (20.3936%)
+  of which 1 substitution: 4780.08 s (20.3936%)
+2 chromas wrong: 5480.82 s (23.3832%)
+  of which 2 substitutions: 5480.82 s (23.3832%)
+3 chromas wrong: 1869.73 s (7.97695%)
+  of which 3 substitutions: 1869.73 s (7.97695%)
 
 Root/type results
 -----------------
-Both correct: 10327.5 s (44.8532%)
-Only root correct: 981.86 s (4.2643%)
-Only type correct: 4853.17 s (21.0778%)
-Both wrong: 6255.79 s (27.1694%)
+Both correct: 10694.4 s (45.6263%)
+Only root correct: 1084.85 s (4.62839%)
+Only type correct: 4699.38 s (20.0493%)
+Both wrong: 6353.75 s (27.1074%)
