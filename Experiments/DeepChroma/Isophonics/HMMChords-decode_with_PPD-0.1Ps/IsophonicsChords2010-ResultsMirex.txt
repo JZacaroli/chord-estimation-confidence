@@ -1,40 +1,41 @@
 List: "Lists/IsophonicsChords2010.lst"
 
-**********************
-* Chords MirexMajMin *
-**********************
-Duration of evaluated chords: 35778.2 s
-Average score: 78.5919%
+************************
+* Chords 4TriadsOutput *
+************************
+Duration of evaluated chords: 36321.4 s
+Average score: 77.6646%
 
 Chord detection results
 -----------------------
-Correct chords: 28122.7 s (78.6028%)
-Substituted chords: 5742.98 s (16.0516%)
-Deleted chords: 0.841631 s (0.00235235%)
-Inserted chords: 1898.49 s (5.30627%)
-Correct no-chords: 13.2252 s (0.0369644%)
+Correct chords: 28212.8 s (77.6754%)
+Substituted chords: 6195.7 s (17.058%)
+Deleted chords: 0.841631 s (0.00231718%)
+Inserted chords: 1898.84 s (5.22789%)
+Correct no-chords: 13.2252 s (0.0364116%)
 
 Results per chord type
 ----------------------
-maj: 22650.7 s (85.6721%) of 26438.8 s (73.8963%)
-min: 5472.04 s (73.6705%) of 7427.73 s (20.7605%)
+maj: 22650.3 s (85.6719%) of 26438.5 s (72.7903%)
+min: 5472.04 s (73.6705%) of 7427.73 s (20.45%)
+aug: 13.7681 s (6.90694%) of 199.338 s (0.548817%)
+dim: 76.6459 s (22.2939%) of 343.797 s (0.946542%)
 
 Results per number of chromas wrong
 -----------------------------------
-0 chromas wrong: 28122.7 s (78.6028%)
-  of which root correct: 28122.7 s (78.6028%)
-  of which root incorrect: 0 s (0%)
-1 chroma wrong: 2181.43 s (6.09708%)
-  of which 1 substitution: 2181.43 s (6.09708%)
-2 chromas wrong: 2434.39 s (6.80412%)
-  of which 2 substitutions: 2434.39 s (6.80412%)
-3 chromas wrong: 874.778 s (2.445%)
-  of which 3 substitutions: 874.778 s (2.445%)
-unknown chromas wrong: 252.378 s (0.705396%)
+0 chromas wrong: 28235 s (77.7366%)
+  of which root correct: 28212.8 s (77.6754%)
+  of which root incorrect: 22.2274 s (0.0611963%)
+1 chroma wrong: 2629.51 s (7.23958%)
+  of which 1 substitution: 2629.51 s (7.23958%)
+2 chromas wrong: 2589.21 s (7.12862%)
+  of which 2 substitutions: 2589.21 s (7.12862%)
+3 chromas wrong: 954.745 s (2.6286%)
+  of which 3 substitutions: 954.745 s (2.6286%)
 
 Root/type results
 -----------------
-Both correct: 28122.7 s (78.6028%)
-Only root correct: 987.095 s (2.75892%)
-Only type correct: 2450.85 s (6.8501%)
-Both wrong: 2305.04 s (6.44257%)
+Both correct: 28212.8 s (77.6754%)
+Only root correct: 1150.55 s (3.1677%)
+Only type correct: 2530.52 s (6.96702%)
+Both wrong: 2514.63 s (6.92327%)
