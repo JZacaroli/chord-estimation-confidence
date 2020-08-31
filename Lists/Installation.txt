@@ -1,0 +1,7 @@
+Following the python_example on Github: https://github.com/pybind/python_example
+
+Cloned the repository
+git clone --recursive https://github.com/jpauwels/Hiddini.git
+
+Installed with pip
+pip install ./Hiddini
