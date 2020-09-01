@@ -9,14 +9,17 @@ import pandas as pd
 import pickle
 import os
 from os.path import dirname
+import time
 
 def run_experiments(list_path, audio_dir, reference_label_dir, output_dir, chroma_extractor, chromas, chord_types, type_templates, self_prob, audio_suffix='.wav', chordfile_suffix='.lab', hmm_decoders=['decodeMAP'], entropy_experiments=False, energies=False):
     list_name = splitext(basename(list_path))[0]
-    #print('List name:', list_name)
     if not all([isfile(join(output_dir, 'HMMChords-{}-{}Ps'.format(y, round(self_prob,3)), '{}-ResultsMirex.txt'.format(list_name))) for y in hmm_decoders]):
 
+        chromagramStartTime = time.time()
         # Calculate chromagrams
         chromagrams = run_on_file_list(list_path, lambda x: chroma_extractor(join(audio_dir, x+audio_suffix)), verbose=False)
+        chromagramEndTime = time.time()
+        print('Time spent calculating chromagrams:', chromagramEndTime-chromagramStartTime)
 
         # Save chromagrams
         if 'Isophonics' in output_dir:
@@ -30,7 +33,7 @@ def run_experiments(list_path, audio_dir, reference_label_dir, output_dir, chrom
             chroma_type = 'CLPChroma'
         elif 'CENSChroma' in output_dir:
             chroma_type = 'CENSChroma'
-        chromagram_numpy_list = [np.asarray(chromagram[0]) for chromagram in chromagrams] #needed to convert CLPChroma/CENSChroma to numpy array
+        chromagram_numpy_list = [np.asarray(chromagram[0]) for chromagram in chromagrams] #weird but needed to convert CLPChroma/CENSChroma to numpy array
         chromagram_file = join('Experiments', chroma_type, dataset_name, 'Chromagrams')
         try:
             os.makedirs(dirname(chromagram_file))
@@ -45,6 +48,7 @@ def run_experiments(list_path, audio_dir, reference_label_dir, output_dir, chrom
             rms_energies = run_on_file_list(list_path, lambda x: energy_extractor(join(audio_dir, x+audio_suffix)), verbose=False)
 
         # Calculate chords with confidence from chromagrams
+        HMMStartTime = time.time()
         for decoder in hmm_decoders:
             chord_dir = join(output_dir, 'HMMChords-{}-{}Ps'.format(decoder, round(self_prob,3)))
             if entropy_experiments:
@@ -57,8 +61,8 @@ def run_experiments(list_path, audio_dir, reference_label_dir, output_dir, chrom
                 log_probs_and_confidences = run_on_file_list_with_arg(list_path, HMMSmoothedChordsFromTemplates(audio_dir, chord_dir, chromas, chord_types, type_templates, chroma_extractor, self_prob, audio_suffix, chordfile_suffix, decode_method=decoder), chromagrams, verbose=False)
                 if log_probs_and_confidences:
                     pd.DataFrame(log_probs_and_confidences).to_csv(join(chord_dir, list_name+'-logprobs_confidences.csv'), index=False, header=False)
-
-        print('')
+        HMMEndTime = time.time()
+        print('Time spent decoding HMMs:', HMMEndTime-HMMStartTime)
 
     # Evaluate chord sequences
     for decoder in hmm_decoders:
@@ -85,11 +89,13 @@ chord_self_probs = 0.1
 hmm_decoders = ['decodeMAP_with_medianOPC', 'decode_with_PPD']
 entropy_hmm_decoders = ['decodeMAP_with_sequential_entropy', 'decodeMAP_with_framewise_entropy']
 
-## Experiments
-#run_experiments('Lists/sines.lst', 'Audio', 'Ground-Truth', join('Experiments', 'DeepChroma', 'Sines'), MadMomDeepChromaExtractor(samplerate, block_size, step_size), chromas, chord_types, type_templates, self_prob=chord_self_probs, hmm_decoders=hmm_decoders)
+
+####### Experiments #######
+
 
 print(' Starting running experiments..')
 
+# PPD experiments
 # Isophonics
 # run_experiments('Lists/IsophonicsChords2010.lst', 'Audio/Songs.nosync', 'Ground-Truth', join('Experiments', 'DeepChroma', 'Isophonics'), MadMomDeepChromaExtractor(samplerate, block_size, 4410), chromas, chord_types, type_templates, self_prob=chord_self_probs, hmm_decoders=hmm_decoders)
 # run_experiments('Lists/IsophonicsChords2010.lst', 'Audio/Songs.nosync', 'Ground-Truth', join('Experiments', 'CLPChroma', 'Isophonics'), MadMomCLPChromaExtractor(samplerate, block_size, step_size), chromas, chord_types, type_templates, self_prob=chord_self_probs, hmm_decoders=hmm_decoders)
@@ -103,14 +109,14 @@ print(' Starting running experiments..')
 
 # Observation Entropy Experiments
 # Isophonics
-run_experiments('Lists/IsophonicsChords2010Subset.lst', 'Audio/Songs.nosync', 'Ground-Truth', join('Experiments', 'DeepChroma', 'Isophonics'), MadMomDeepChromaExtractor(samplerate, block_size, 4410), chromas, chord_types, type_templates, self_prob=chord_self_probs, hmm_decoders=entropy_hmm_decoders, entropy_experiments=True, energies=True)
-# run_experiments('Lists/IsophonicsChords2010.lst', 'Audio/Songs.nosync', 'Ground-Truth', join('Experiments', 'CLPChroma', 'Isophonics'), MadMomCLPChromaExtractor(samplerate, block_size, step_size), chromas, chord_types, type_templates, self_prob=chord_self_probs, hmm_decoders=entropy_hmm_decoders, entropy_experiments=True, energies=True)
-# run_experiments('Lists/IsophonicsChords2010.lst', 'Audio/Songs.nosync', 'Ground-Truth', join('Experiments', 'CENSChroma', 'Isophonics'), LibrosaCENSChromaExtractor(samplerate, block_size, step_size), chromas, chord_types, type_templates, self_prob=chord_self_probs, hmm_decoders=entropy_hmm_decoders, entropy_experiments=True, energies=True)
+run_experiments('Lists/IsophonicsChords2010.lst', 'Audio/Songs.nosync', 'Ground-Truth', join('Experiments', 'DeepChroma', 'Isophonics'), MadMomDeepChromaExtractor(samplerate, block_size, 4410), chromas, chord_types, type_templates, self_prob=chord_self_probs, hmm_decoders=entropy_hmm_decoders, entropy_experiments=True, energies=True)
+run_experiments('Lists/IsophonicsChords2010.lst', 'Audio/Songs.nosync', 'Ground-Truth', join('Experiments', 'CLPChroma', 'Isophonics'), MadMomCLPChromaExtractor(samplerate, block_size, step_size), chromas, chord_types, type_templates, self_prob=chord_self_probs, hmm_decoders=entropy_hmm_decoders, entropy_experiments=True, energies=True)
+run_experiments('Lists/IsophonicsChords2010.lst', 'Audio/Songs.nosync', 'Ground-Truth', join('Experiments', 'CENSChroma', 'Isophonics'), LibrosaCENSChromaExtractor(samplerate, block_size, step_size), chromas, chord_types, type_templates, self_prob=chord_self_probs, hmm_decoders=entropy_hmm_decoders, entropy_experiments=True, energies=True)
 
 # RWC-Popular
-# run_experiments('Lists/RWC-Popular.lst', 'Audio/Songs.nosync/Popular_Music', 'Ground-Truth/RWC-Popular', join('Experiments', 'DeepChroma', 'RWC-Popular'), MadMomDeepChromaExtractor(samplerate, block_size, 4410), chromas, chord_types, type_templates, audio_suffix='.aiff', self_prob=chord_self_probs, hmm_decoders=entropy_hmm_decoders, entropy_experiments=True)
-# run_experiments('Lists/RWC-Popular.lst', 'Audio/Songs.nosync/Popular_Music', 'Ground-Truth/RWC-Popular', join('Experiments', 'CLPChroma', 'RWC-Popular'), MadMomCLPChromaExtractor(samplerate, block_size, step_size), chromas, chord_types, type_templates, audio_suffix='.aiff', self_prob=chord_self_probs, hmm_decoders=entropy_hmm_decoders, entropy_experiments=True)
-# run_experiments('Lists/RWC-Popular.lst', 'Audio/Songs.nosync/Popular_Music', 'Ground-Truth/RWC-Popular', join('Experiments', 'CENSChroma', 'RWC-Popular'), LibrosaCENSChromaExtractor(samplerate, block_size, step_size), chromas, chord_types, type_templates, audio_suffix='.aiff', self_prob=chord_self_probs, hmm_decoders=entropy_hmm_decoders, entropy_experiments=True)
+run_experiments('Lists/RWC-Popular.lst', 'Audio/Songs.nosync/Popular_Music', 'Ground-Truth/RWC-Popular', join('Experiments', 'DeepChroma', 'RWC-Popular'), MadMomDeepChromaExtractor(samplerate, block_size, 4410), chromas, chord_types, type_templates, audio_suffix='.aiff', self_prob=chord_self_probs, hmm_decoders=entropy_hmm_decoders, entropy_experiments=True)
+run_experiments('Lists/RWC-Popular.lst', 'Audio/Songs.nosync/Popular_Music', 'Ground-Truth/RWC-Popular', join('Experiments', 'CLPChroma', 'RWC-Popular'), MadMomCLPChromaExtractor(samplerate, block_size, step_size), chromas, chord_types, type_templates, audio_suffix='.aiff', self_prob=chord_self_probs, hmm_decoders=entropy_hmm_decoders, entropy_experiments=True)
+run_experiments('Lists/RWC-Popular.lst', 'Audio/Songs.nosync/Popular_Music', 'Ground-Truth/RWC-Popular', join('Experiments', 'CENSChroma', 'RWC-Popular'), LibrosaCENSChromaExtractor(samplerate, block_size, step_size), chromas, chord_types, type_templates, audio_suffix='.aiff', self_prob=chord_self_probs, hmm_decoders=entropy_hmm_decoders, entropy_experiments=True)
 
 
 
