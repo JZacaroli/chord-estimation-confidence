@@ -122,7 +122,7 @@ def run_on_file_list(relative_list_path, callable_object, verbose=False):
         if verbose:
             msg = 'Processing ' + relative_path
             print_(msg, end='', flush=True)
-            
+
         output.append(callable_object(relative_path))
         if verbose:
             print_('\r' + ' ' * len(msg) + '\r', end='', flush=True)
@@ -202,7 +202,6 @@ class HMMSmoothedChordsFromTemplates(ChordsFromTemplates):
             # Calculate the framewise likelihood of each chord
             start_times, end_times, chord_probs = super(HMMSmoothedChordsFromTemplates, self).__call__(relative_path, timed_chromagram)
             # Viterbi algorithm to decode the smoothed states, their probabilities and confidences.
-            # hmm_smoothed_state_indices, log_prob, confidence = self.decode(chord_probs)
             retvals = self.decode(chord_probs) #First is the optimal state sequence
             write_chord_file(chordfile_path, start_times, end_times, self.chords[retvals[0]])
             if self.is_entropy:
